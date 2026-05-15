@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Reservasi Perusahaan</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Bagian 1: CSS (Creative Elegance, Dark Mode, & Animation) -->
+    <style>
+        :root {
+            --grad-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --grad-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --grad-danger: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            
+            --bg-body: #fcfbfe;
+            --bg-body-gradient: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-input: rgba(255, 255, 255, 0.7);
+            --bg-th: rgba(243, 244, 246, 0.7);
+            --bg-tr-hover: rgba(249, 250, 251, 0.7);
+            --text-main: #1e1b4b;
+            --text-label: #4a47a3;
+            --text-muted: #64748b;
+            --border-custom: rgba(168, 85, 247, 0.15);
+            --shadow-card: 0 20px 40px -15px rgba(102, 102, 135, 0.08);
+            --shadow-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-body-gradient: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 40%);
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-input: rgba(15, 23, 42, 0.6);
+            --bg-th: rgba(15, 23, 42, 0.8);
+            --bg-tr-hover: rgba(51, 65, 85, 0.4);
+            --text-main: #f8fafc;
+            --text-label: #c084fc;
+            --text-muted: #94a3b8;
+            --border-custom: rgba(168, 85, 247, 0.3);
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            background-image: var(--bg-body-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px 60px 20px;
+            margin: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            box-sizing: border-box;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* TOGGLE BUTTON TEMA */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border-custom);
+            padding: 10px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-main);
+            box-shadow: var(--shadow-card);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover { transform: translateY(-2px); }
+
+        /* CONTAINER CARDS */
+        .box-booking, .box-tabel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card), var(--shadow-inset);
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--border-custom);
+            transition: background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .box-booking {
+            padding: 40px;
+            max-width: 440px;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin: 0 0 8px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        h3 {
+            text-align: center;
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 30px 0;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* INPUTS & LABELS */
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 18px;
+            color: var(--text-label);
+            font-size: 13px;
+            letter-spacing: 0.3px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            margin-top: 8px;
+            border: 1px solid var(--border-custom);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: var(--text-main);
+            background-color: var(--bg-input);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #a855f7;
+            background-color: var(--bg-card);
+            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+        }
+
+        [data-theme="dark"] input::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+        /* TOMBOL SUBMIT */
+        button[type="submit"] {
+            width: 100%;
+            background: var(--grad-primary);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 28px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.3);
+        }
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(168, 85, 247, 0.4);
+            filter: brightness(1.05);
+        }
+
+        /* NOTIFIKASI */
+        .notifikasi {
+            margin-top: 25px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+        #notifSukses { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        #notifError { background: #fff5f5; color: #9f1239; border: 1px solid #ffe4e6; }
+        [data-theme="dark"] #notifSukses { background: rgba(22, 101, 52, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+        [data-theme="dark"] #notifError { background: rgba(159, 18, 57, 0.2); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+        /* TABEL AREA */
+        .box-tabel {
+            padding: 35px;
+            max-width: 820px;
+        }
+
+        .box-tabel h3 {
+            text-align: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            text-transform: none;
+            letter-spacing: -0.2px;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            -webkit-text-fill-color: initial;
+            background: none;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 14px;
+            box-shadow: 0 0 0 1px var(--border-custom);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--bg-th);
+            color: #6366f1;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-custom);
+        }
+
+        td {
+            border-bottom: 1px solid var(--border-custom);
+            color: var(--text-main);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: var(--bg-tr-hover); }
+
+        /* ANIMASI BARIS TABEL BARU */
+        @keyframes fadeInGlow {
+            0% {
+                opacity: 0;
+                transform: scale(0.97);
+                background-color: rgba(168, 85, 247, 0.25);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                background-color: transparent;
+            }
+        }
+        .baris-baru {
+            animation: fadeInGlow 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* BUTTONS */
+        .btn-hapus {
+            background: transparent;
+            color: #e11d48;
+            border: 1px solid rgba(225, 29, 72, 0.3);
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12.5px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+        .btn-hapus:hover {
+            background: var(--grad-danger);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+        }
+
+        .status-system {
+            color: #6366f1;
+            font-size: 11.5px;
+            font-weight: 600;
+            background-color: rgba(99, 102, 241, 0.1);
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOMBOL GANTI TEMA -->
+    <button class="theme-toggle" id="btnThemeToggle">
+        <span class="icon" id="themeIcon">🌙</span>
+        <span id="themeText">Mode Gelap</span>
+    </button>
+
+    <!-- KARTU FORMULIR -->
+    <div class="box-booking">
+        <h2>Form Reservasi Infocus</h2>
+        <h3>PT. HARMONI UTAMA TEXTILE</h3>
+        <form id="formReservasi">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" required placeholder="Masukkan nama Anda">
+
+            <label for="tanggal">Tanggal Booking</label>
+            <input type="date" id="tanggal" required>
+
+            <label for="waktu">Jam Mulai (08:00 - 16:00)</label>
+            <input type="time" id="waktu" required>
+
+            <label for="durasi">Durasi Penggunaan</label>
+            <select id="durasi" required>
+                <option value="1">1 Jam</option>
+                <option value="2">2 Jam</option>
+                <option value="3">3 Jam</option>
+            </select>
+
+            <label for="perusahaan">Nama Perusahaan</label>
+            <input type="text" id="perusahaan" required placeholder="Masukkan nama Perusahaan Anda">
+
+            <button type="submit">Konfirmasi Reservasi</button>
+        </form>
+
+        <div id="notifSukses" class="notifikasi"></div>
+        <div id="notifError" class="notifikasi"></div>
+    </div>
+
+    <!-- KARTU TABEL DATA RESERVASI -->
+    <div class="box-tabel">
+        <h3>Daftar Jadwal Terpesan</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Pemesan</th>
+                        <th>Tanggal</th>
+                        <th>Waktu (Mulai - Selesai)</th>
+                        <th>Perusahaan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="kontenTabel">
+                    <!-- Data dimasukkan oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bagian 3: JavaScript -->
+    <script>
+        // --- LOGIKA TOGGLE DARK MODE & LOCAL STORAGE ---
+        const btnThemeToggle = document.getElementById('btnThemeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        
+        const temaSaatIni = localStorage.getItem('theme') || 'light';
+        if (temaSaatIni === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.innerText = "☀️";
+            themeText.innerText = "Mode Terang";
+        }
+
+        btnThemeToggle.addEventListener('click', function() {
+            const temaAktif = document.documentElement.getAttribute('data-theme');
+            if (temaAktif === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeIcon.innerText = "🌙";
+                themeText.innerText = "Mode Gelap";
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.innerText = "☀️";
+                themeText.innerText = "Mode Terang";
+            }
+        });
+
+        // --- SIMULASI DATA BAWAAN (Rian: Jam 10:00 s.d 12:00, durasi 2 jam) ---
+        const dataBawaan = [
+            { nama: "Rian Wijaya", tanggal: "2026-06-15", waktuMulai: "10:00", waktuSelesai: "12:00", perusahaan: "PT Maju Mundur", isBawaan: true }
+        ];
+
+        let databaseBooking = JSON.parse(localStorage.getItem('reservasiInfocus')) || [];
+        let idBarisBaru = null; // Menyimpan index item baru untuk memicu animasi transisi
+
+        // --- VALIDASI TANGGAL MINIMAL (Hari Ini) ---
+        const inputTanggal = document.getElementById('tanggal');
+        const hariIni = new Date();
+        const formatTanggalMinimal = `${hariIni.getFullYear()}-${String(hariIni.getMonth() + 1).padStart(2, '0')}-${String(hariIni.getDate()).padStart(2, '0')}`;
+        inputTanggal.min = formatTanggalMinimal;
+
+        function formatTanggalIndo(stringTanggal) {
+            const [thn, bln, tgl] = stringTanggal.split('-');
+            return `${tgl}-${bln}-${thn}`;
+        }
+
+        // --- FUNGSI UTK MENGUBAH STRING JAM MENJADI TOTAL MENIT (Untuk mempermudah kalkulasi rentang) ---
+        function jamKeMenit(stringJam) {
+            const [jam, menit] = stringJam.split(':').map(Number);
+            return (jam * 60) + menit;
+        }
+
+        // --- FUNGSI TAMBAH JAM KE STRING SEBAGAI JAM SELESAI ---
+        function hitungJamSelesai(stringJamMulai, jamDurasi) {
+            let totalMenit = jamKeMenit(stringJamMulai) + (jamDurasi * 60);
+            let jam = String(Math.floor(totalMenit / 60)).padStart(2, '0');
+            let menit = String(totalMenit % 60).padStart(2, '0');
+            return `${jam}:${menit}`;
+        }
+
+        // --- FUNGSI UNTUK MENAMPILKAN DATA KE TABEL ---
+        function perbaruiTabel() {
+            const tabelBody = document.getElementById('kontenTabel');
+            tabelBody.innerHTML = "";
+
+            const semuaData = [...dataBawaan, ...databaseBooking];
+
+            semuaData.forEach(function(slot, index) {
+                const baris = document.createElement('tr');
+                
+                // Berikan kelas khusus jika merupakan data yang baru saja diinput pengguna
+                if (!slot.isBawaan && (index - dataBawaan.length) === idBarisBaru) {
+                    baris.classList.add('baris-baru');
+                }
+
+                const tombolAksi = slot.isBawaan 
+                    ? `<span class="status-system">SISTEM</span>`
+                    : `<button class="btn-hapus" onclick="hapusReservasi(${index - dataBawaan.length})">Batal</button>`;
+
+                baris.innerHTML = `
+                    <td><strong>${slot.nama}</strong></td>
+                    <td>${formatTanggalIndo(slot.tanggal)}</td>
+                    <td>${slot.waktuMulai} - ${slot.waktuSelesai} WIB</td>
+                    <td>${slot.perusahaan}</td>
+                    <td>${tombolAksi}</td>
+                `;
+                tabelBody.appendChild(baris);
+            });
+            idBarisBaru = null; // Reset setelah di-render
+        }
+
+        // --- FUNGSI HAPUS RESERVASI ---
+        function hapusReservasi(indexAsli) {
+            if (confirm("Apakah Anda yakin ingin membatalkan reservasi ini?")) {
+                databaseBooking.splice(indexAsli, 1);
+                localStorage.setItem('reservasiInfocus', JSON.stringify(databaseBooking));
+                perbaruiTabel();
+            }
+        }
+
+        perbaruiTabel();
+
+        // --- LOGIKA FORM SUBMIT ---
+        const form = document.getElementById('formReservasi');
+        const pesanSukses = document.getElementById('notifSukses');
+        const pesanError = document.getElementById('notifError');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            pesanSukses.style.display = 'none';
+            pesanError.style.display = 'none';
+
+            const namaUser = document.getElementById('nama').value;
+            const tanggalUser = document.getElementById('tanggal').value;
+            const waktuMulaiUser = document.getElementById('waktu').value; 
+            const durasiUser = parseInt(document.getElementById('durasi').value);
+            const perusahaanUser = document.getElementById('perusahaan').value;
+
+            const waktuSelesaiUser = hitungJamSelesai(waktuMulaiUser, durasiUser);
+
+            // 1. Validasi Jam Operasional Kantor (08:00 - 16:00)
+            const batasBuka = "08:00";
+            const batasTutup = "16:00";
+            if (waktuMulaiUser < batasBuka || waktuSelesaiUser > batasTutup) {
+                pesanError.innerText = `Maaf, waktu peminjaman di luar jam operasional kantor (${batasBuka} - ${batasTutup} WIB).`;
+                pesanError.style.display = 'block';
+                return; 
+            }
+
+            // 2. Validasi Bentrok Berdasarkan Rentang Waktu
+            const semuaData = [...dataBawaan, ...databaseBooking];
+            
+            const startUserMin = jamKeMenit(waktuMulaiUser);
+            const endUserMin = jamKeMenit(waktuSelesaiUser);
+
+            const isBentrok = semuaData.some(function(slot) {
+                // Hanya cek jika di tanggal yang sama
+                if (slot.tanggal === tanggalUser) {
+                    const startExistingMin = jamKeMenit(slot.waktuMulai);
+                    const endExistingMin = jamKeMenit(slot.waktuSelesai);
+
+                    // Rumus Bentrok Logika Rentang: (Mulai_A < Selesai_B) && (Selesai_A > Mulai_B)
+                    return (startUserMin < endExistingMin && endUserMin > startExistingMin);
+                }
+                return false;
+            });
+
+            if (isBentrok) {
+                pesanError.innerText = `Jadwal bentrok! Tanggal ${formatTanggalIndo(tanggalUser)} pada rentang waktu tersebut sudah terpakai pesanan lain.`;
+                pesanError.style.display = 'block';
+                return; 
+            }
+
+            // 3. Simpan data baru
+            databaseBooking.push({
+                nama: namaUser,
+                tanggal: tanggalUser,
+                waktuMulai: waktuMulaiUser,
+                waktuSelesai: waktuSelesaiUser,
+                perusahaan: perusahaanUser,
+                isBawaan: false
+            });
+
+            idBarisBaru = databaseBooking.length - 1; // Tandai baris terakhir untuk memicu animasi CSS
+            localStorage.setItem('reservasiInfocus', JSON.stringify(databaseBooking));
+
+            // Tampilkan pesan sukses
+            pesanSukses.innerText = `Selamat, reservasi untuk ${perusahaanUser} berhasil dijadwalkan pada jam ${waktuMulaiUser} - ${waktuSelesaiUser} WIB!`;
+            pesanSukses.style.display = 'block';
+
+            form.reset();
+            inputTanggal.min = formatTanggalMinimal;
+            perbaruiTabel(); 
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
